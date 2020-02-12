@@ -1,18 +1,14 @@
 const express = require("express");
-
+const connectDB = require("./config/db");
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("API /");
-});
+//DB Connectivity
+connectDB();
 
-app.get("/get-users", (req, res) => {
-  res.send("GET USERS");
-});
+//Initializing Middleware
+app.use(express.json({ extended: false }));
 
-app.get("/get-blogs", (req, res) => {
-  res.send("GET BLOGS");
-});
+app.use("/api/user", require("./routes/api/user"));
 
 const PORT = process.env.PORT || 5000;
 
