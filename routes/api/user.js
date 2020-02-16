@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../../models/User");
+const bcrypt = require("bcryptjs");
 
 // @route    GET api/user
 // @desc     Get All Users
@@ -26,6 +27,9 @@ router.post("/create-user", async (req, res) => {
       email: email,
       password: password
     });
+
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
 
     await user.save();
 
